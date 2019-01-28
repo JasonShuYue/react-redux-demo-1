@@ -4,17 +4,26 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {createStore} from 'redux';
 
+import { Provider } from 'react-redux';
+
+
 let store = createStore(stateChanger);
 
 function stateChanger(state, action) {
     if(typeof state === "undefined") {
-        state = 0;
+        return {
+            number: 0
+        }
     }
     switch(action.type) {
         case 'ADD':
-            return  state = state + action.payload;
+            return  {
+                number: state.number + action.payload
+            };
         case 'MINUS':
-            return  state = state - action.payload;
+            return  {
+                number: state.number - action.payload
+            };
         default:
             return state;
     }
@@ -28,7 +37,11 @@ store.subscribe(() => {
 })
 
 function render() {
-    ReactDOM.render(<App store={store}/>, document.getElementById('root'));
+    ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root'));
 
 }
 
