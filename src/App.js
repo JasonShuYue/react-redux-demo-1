@@ -1,25 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
 class App extends Component {
+
+  add() {
+    this.props.store.dispatch({type: 'ADD', payload: 1});
+  }
+
+  minus() {
+    this.props.store.dispatch({type: 'MINUS', payload: 1});
+  }
+
+  addOdd() {
+    if(this.props.store.getState() % 2 === 1) {
+      this.store.dispatch({type: 'ADD', payload: 2});
+    }
+  }
+
+  addAsync() {
+    setTimeout(() => {
+      this.props.store.dispatch({type: 'ADD', payload: 1});
+    }, 1000);
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <span className="number">{this.props.store.getState()}</span>
+        <button id="add" onClick={() => this.add()}>+</button>
+        <button id="minus" onClick={() => this.minus()}>-</button>
+        <button id="addOdd" onClick={() => this.addOdd()}>单数+2</button>
+        <button id="addAsync" onClick={() => this.addAsync()}>1秒后+2</button>
       </div>
     );
   }
